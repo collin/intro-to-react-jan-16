@@ -1,0 +1,245 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import { jsx } from "jsx";
+import newFile from "./images/new-file.png";
+import simpleProps1 from "./images/simple-props-1.png";
+import simpleProps2 from "./images/simple-props-2.png";
+
+export const title = "Simple props";
+export const sectionPrefix = "/simple-props";
+export const description = "you'll learn how to use the props syntax in a react component";
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- Use `string` properties in a react component
+- Use `number` properties in a react component
+
+</div>
+
+</Objectives>
+
+First, open a terminal in the `labs/03-props/your-solution` folder and run `npx vite dev`.
+
+Take a look at the starter-code provided in this lab. It should feel familiar to you by now.
+
+<Activity>
+
+Create a new component in its own file called `SimpleProps.jsx`.
+
+Import that component into the `App.jsx` file and render it.
+
+<LookAtBrowser>
+When you're done, you should see the following in your browser:
+
+<img className="mw-400" src={simpleProps1} />
+
+</LookAtBrowser>
+
+<Hint title="Not sure how to create that file?">
+You can right click on the `your-solution` folder and select `New File`.
+
+<img className="mw-400" src={newFile}/>
+</Hint>
+
+<Hint title="Not sure how to write that code?">
+
+In the `SimpleProps.jsx` file, write the following code:
+
+```jsx SimpleProps.jsx
+export const SimpleProps = () => {
+  return (
+    <div>
+      <h1>Simple Props</h1>
+    </div>
+  );
+};
+```
+
+And import it into the `App.jsx` file, and render it inside the `App` component.
+
+```jsx App.jsx
+// focus
+import { SimpleProps } from "./SimpleProps";
+
+export const App = () => {
+  return (
+    <div>
+      <h1>My App</h1>
+      // focus
+      <SimpleProps />
+    </div>
+  );
+};
+```
+
+</Hint>
+
+</Activity>
+
+Great, now we'll add some props to the `SimpleProps` component.
+
+We'll update the component to render some dynamic content passed in as props.
+
+<Activity>
+
+Update your `SimpleProps` component to take the following props:
+
+- `title` - a string
+- `description` - a string
+- `count` - a number
+
+And render them inside the component.
+
+- `title` should be rendered inside the `h1` tag.
+- `description` should be rendered inside a new `p` tag.
+- `count` should be rendered inside a new `p` tag.
+
+Then, update the `App` component to render two instances of the `SimpleProps` component.
+Each instance should have different props passed into it.
+
+<LookAtBrowser>
+When you're done, you should see something like the following in your browser:
+
+<img className="mw-400" src={simpleProps2} />
+</LookAtBrowser>
+
+<Hint title="Not sure how to write that code?">
+
+In the `SimpleProps.jsx` file, write the following code:
+
+```jsx SimpleProps.jsx
+export const SimpleProps = (props) => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      <p>{props.description}</p>
+      <p>{props.count}</p>
+    </div>
+  );
+};
+```
+
+And import it into the `App.jsx` file, and render it inside the `App` component.
+
+```jsx App.jsx
+import { SimpleProps } from "./SimpleProps";
+
+export const App = () => {
+  return (
+    <div>
+      <h1>My App</h1>
+      // focus(1:4)
+      <SimpleProps
+        title="My First Props"
+        description="This is my first props"
+        count={1}
+      />
+      // focus(1:4)
+      <SimpleProps
+        title="My Second Props"
+        description="This is my second props"
+        count={2}
+      />
+    </div>
+  );
+};
+```
+
+</Hint>
+
+</Activity>
+
+<Goal>
+  Congratulations! You've created a component that takes props and renders them
+  dynamically.
+</Goal>
+
+Before we move on, let's take a look at the `SimpleProps` component and see if
+we can make it a bit simpler.
+
+We're going to update the `SimpleProps` component to use destructuring to extract the props
+from the `props` object.
+
+This is a common pattern in React, so it's worth getting familiar with it. Many future examples in
+this course will use this pattern.
+
+First, here's an example of destructuring assignment in JavaScript:
+
+```jsx
+const person = { age: 21, name: "John" };
+
+// This destructuring syntax
+const { age, name } = person;
+
+// has the same effect same as this syntax
+const age = person.age;
+const name = person.name;
+```
+
+This can also be used to extract properties from arguments, such as the `props` argument
+in our `SimpleProps` component.
+
+```jsx
+export const SimpleProps = (props) => {
+  // This destructuring syntax
+  const { title, description, count } = props;
+
+  // has the same effect same as this syntax
+  const title = props.title;
+  const description = props.description;
+  const count = props.count;
+
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <p>{count}</p>
+    </div>
+  );
+};
+```
+
+So we can simplify our `SimpleProps` component to the following:
+
+```jsx
+export const SimpleProps = (props) => {
+  const { title, description, count } = props;
+
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <p>{count}</p>
+    </div>
+  );
+};
+```
+
+But we can simplify it even further. Instead of extracting the properties from the `props` object
+in a separate step, we can do it in the function arguments.
+
+```jsx
+export const SimpleProps = ({ title, description, count }) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <p>{count}</p>
+    </div>
+  );
+};
+```
+
+Again, this is a common pattern in the React world, so it's worth getting familiar with it.
+
+<Activity>
+
+</Activity>

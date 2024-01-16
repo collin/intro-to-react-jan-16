@@ -1,0 +1,57 @@
+import { ByHand } from "ByHand";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Objectives } from "Objectives";
+import { Goal } from "Goal";
+
+export const title = "Add React";
+export const description =
+  'add the react libraries to your project and render a "Hello World" message to the page.';
+
+<Objectives>
+  In this section, you will:
+  
+- add the react libraries to our project
+- and render a "Hello World" message to the page.
+
+</Objectives>
+
+## Add React
+
+Now we're ready to start writing some react code.
+
+<ByHand>Type things out by-hand in this section.</ByHand>
+
+<br />
+
+In `main.jsx` we're going to import the `react` and `react-dom` libraries. These have already been installed in this repository, so you don't need to do anything to install them. But typically this would be done with `npm install react react-dom`
+
+```js main.jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+```
+
+Next, we'll need to get a reference to the `div` with the id of `root` in our html. And we'll need to create a react root targeting that element.
+
+```js
+const root = document.getElementById("root");
+const reactRoot = ReactDOM.createRoot(root);
+```
+
+Now we're ready to render our first react component to that root:
+
+```js
+reactRoot.render(<h1>Hello World</h1>, root);
+```
+
+<LookAtBrowser>
+
+Go ahead and save that file, and you should see your browser has reloaded with
+the new content. This is because vite is watching for changes to your code and
+automatically reloading the page.
+
+</LookAtBrowser>
+
+<Goal>
+  You've imported the react libraries, created a react root and rendered some
+  content out!
+</Goal>

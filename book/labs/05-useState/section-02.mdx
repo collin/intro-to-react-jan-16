@@ -1,0 +1,151 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import { ReadDocs } from "ReadDocs";
+import { jsx } from "jsx";
+
+export const title = "useState gotchas";
+export const consoleOnly = true;
+export const description = "you'll learn about some common gotchas with `useState`";
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- Observe a weird quirk of `useState`
+
+</div>
+
+</Objectives>
+
+Consider the following code:
+
+Before you click the Add 2 button, think for a moment about what you expect to happen when you click it.
+
+Why do you think that will happen?
+
+<LiveCode
+  disabled
+  noWrap
+  code={`function Adder() {
+  const [count, setCount] = useState(0);
+  return <>
+    <p>Count: {count}</p>
+    <button
+      onClick={() => {
+        setCount(count + 1);
+        setCount(count + 1);
+      }}
+    >
+      Add 2
+    </button>
+  </>
+}`}
+/>
+
+Okay, now click the Add 2 button. What happened? Did it surprise you?
+
+The reason this happens is because the variable named `count` contains the value
+of the state at the time the function was called. When you call `setCount` with
+a new value, it doesn't update the value of `count`.
+
+It updates the internal state, and then it schedules a re-render of the component.
+When the component re-renders, value of the state will be the new value.
+
+Another way to think about it is this:
+
+```jsx
+// First click
+setCount(0 + 1);
+setCount(0 + 1);
+
+// Second click
+setCount(0 + 1);
+setCount(0 + 1);
+```
+
+Let's try another. This time, we'll add a `console.log` to see more about what's happening,
+and when the component re-renders.
+
+Take a moment to read this through and think about what you expect to happen when you click the button.
+
+<LiveCode
+  disabled
+  noWrap
+  code={`function Adder() {
+  const [count, setCount] = useState(0);
+  console.log("Rendering Adder. Count is", count);
+  return <>
+    <p>Count: {count}</p>
+    <button
+      onClick={() => {
+        setTimeout(() => {
+          console.log("Adding 1 to count 1000ms later");
+          setCount(count + 1);
+        }, 1000);
+
+        setTimeout(() => {
+          console.log("Adding 1 to count 2000ms later");
+          setCount(count + 1);
+        }, 2000);
+      }}
+    >
+      Add 2
+    </button>
+
+  </>
+}`}
+/>
+
+Okay, now click the Add 2 button. What happened? Did it surprise you?
+
+Even though we used a timeout here, the same thing happens. The value of `count` is
+the value of the state at the time the timeout was scheduled. This is because of how
+closures work in JavaScript. The function that is passed to `setTimeout` closes over
+the value of `count` at the time it was scheduled, so it con't possibly be influenced
+by any future renders as written.
+
+But we can work around this. We can use the function form of `setCount` to update the count.
+
+```jsx
+setCount((count) => count + 1);
+```
+
+With that form, the function passed to `setCount` is called with the value of the state
+at the time it is being set, it will always be the most recent value.
+
+<LiveCode
+  disabled
+  noWrap
+  code={`function Adder() {
+  const [count, setCount] = useState(0);
+  console.log("Rendering Adder. Count is", count);
+  return <>
+    <p>Count: {count}</p>
+    <button
+      onClick={() => {
+        setTimeout(() => {
+          console.log("Adding 1 to count 1000ms later");
+          setCount((count) => count + 1);
+        }, 1000);
+
+        setTimeout(() => {
+          console.log("Adding 1 to count 2000ms later");
+          setCount((count) => count + 1);
+        }, 2000);
+      }}
+    >
+      Add 2
+    </button>
+
+  </>
+}`}
+/>
+
+Mash that button to your heart's content, and you'll see that the count always goes up by 2 times
+as many times as you clicked it.

@@ -1,0 +1,95 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import newFile from "./images/new-file.png";
+import booleanProps1 from "./images/boolean-props-1.png";
+
+export const title = "...spread props";
+export const sectionPrefix = "/simple-props";
+export const description = "you'll pass multiple props to a component at once using the spread operator";
+
+<Objectives>
+<div>
+  In this section, you will
+
+- use the spread operator pass multiple props through a component
+
+</div>
+
+</Objectives>
+
+JSX has a special syntax for passing several to a component at once. It's called the spread operator, and it looks like this:
+
+```jsx
+const props = {
+  name: "John",
+  age: 42,
+  occupation: "developer",
+};
+<Profile {...props} />
+
+// is equivalent to
+
+<Profile name="John" age={42} occupation="developer" />
+```
+
+<Activity>
+
+In an erlier section, in `App.jsx` file, you created two instances of the `<SimpleProps>` component.
+
+```jsx
+  <SimpleProps
+    title="My First Props"
+    description="This is my first props"
+    count={1}
+  />
+  <SimpleProps
+    title="My Second Props"
+    description="This is my second props"
+    count={2}
+  />
+```
+
+Rewrite those two instances using the spread operator instead of passing each prop individually.
+
+<Hint title="How to rewrite props using ...spread">
+
+It'll look something like this:
+
+```jsx
+const simple1 = {
+  title: "My First Props",
+  description: "This is my first props",
+  count: 1,
+};
+
+const simple2 = {
+  title: "My Second Props",
+  description: "This is my second props",
+  count: 2,
+};
+
+export const App = () => {
+  return (
+    <div>
+      <SimpleProps {...simple1} />
+      <SimpleProps {...simple2} />
+    </div>
+  );
+};
+```
+
+</Hint>
+
+</Activity>
+
+When you're done, you should see the same output as before.
+
+Keep in mind, this isn't a great example of using the spread operator. It's just a way to get familiar with the syntax,
+so you'll understand it if you see it.
+
+In later sections, you'll see how the spread operator can be used to pass props to a component in a more useful way.

@@ -1,0 +1,153 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import { ReadDocs } from "ReadDocs";
+import { jsx } from "jsx";
+
+export const title = "arrays, objects and immutable state";
+export const sectionPrefix = "/array";
+export const description = "you'll learn how to use arrays and objects with `useState`";
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- Use an array with `useState`
+
+</div>
+</Objectives>
+
+### Rendering arrays:
+
+Remember how we couldn't use an `if` statement in JSX? We can't use a `for` loop either for the same reason.
+But we can use `map`:
+
+<LiveCode
+  disabled
+  noWrap
+  code={`function DaysOfTheWeak () {
+  const days = [
+      "Monday", "Tuesday",
+      "Wednesday", "Thursday", "Friday",
+      "Saturday", "Sunday"
+  ];
+
+  return (
+    <ol>
+      {days.map(day => <li>{day}</li>)}
+    </ol>
+  )
+}`}
+/>
+
+<Activity>
+  - Add a `useState` for the current time.
+  - Add a button to add a new time to the list. (`new Date().toLocaleTimeString()`)
+  - Render the list of times.
+
+<Hint title="How to initialize state?">
+
+Initialize with an empty array:
+
+```jsx
+const [times, setTimes] = useState([]);
+```
+
+</Hint>
+
+<Hint title="How to add to state?">
+
+```jsx
+<button onClick={() => {
+  setTimes([...times, new Date().toLocaleTimeString()]);
+}}>
+  Add current time
+</div>
+```
+
+</Hint>
+
+</Activity>
+
+## Immutable arrays
+
+Best practice in React is to never mutate state. In the case of an array, that means not
+using methods like `push`. Instead, we copy the prior state, and add the new item to the copy.
+
+We can use the `...` spread operator to copy the array, and then add the new item to the end:
+
+```jsx
+const array = [1, 2, 3];
+const newArray = [...array, 4];
+```
+
+That is equivalent to:
+
+```jsx
+const array = [1, 2, 3];
+const newArray = array.slice(); // slice with no arguments copies the array
+newArray.push(4);
+```
+
+## Removing items from an array
+
+We can use the `filter` method to remove items from an array:
+
+```jsx
+const array = [1, 2, 3];
+const newArray = array.filter(item => item !== 2); // Copies the array, and removes the item
+```
+
+Alright, you've practiced how to use arrays with `useState`. Now let's learn how to copy and update objects.
+
+<Activity>
+
+Update your code to add a button to each timestamp to remove it from the list.
+
+</Activity>
+
+
+## Copying and updating objects
+
+```jsx
+const john = {
+  name: "John Doe",
+  age: 42
+};
+
+const olderJohn = {
+  ...person,
+  age: 43
+};
+
+const johnWithTitle = {
+  ...person,
+  name: "John Doe, Esq."
+};
+```
+
+These examples copy the original data into a new objectwith the `...` spread operator,
+and then update a property.
+
+This technique can also be used to add new properties.
+
+## Removing properties
+
+```jsx
+
+const john = {
+  name: "John Doe",
+  age: 42
+};
+
+const { age, ...timelessJohn } = john;
+```
+
+This example uses destructuring to remove the `age` property from the `john` object.
+
+In that example, all the properties except `age` are copied into the `timelessJohn` object.
