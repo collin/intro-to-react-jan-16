@@ -1,0 +1,147 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import newFile from "./images/new-file.png";
+import booleanProps1 from "./images/boolean-props-1.png";
+
+export const title = "Boolean props && conditional rendering";
+export const sectionPrefix = "/boolean-props";
+export const description = "you'll use boolean props and conditional rendering to render different content depending on the value of a boolean prop";
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- Use `boolean` properties in a react component
+- Conditionally render depending on the value of a `boolean` property
+
+</div>
+
+</Objectives>
+
+Now, we're going to create another component to practice using `boolean` properties and conditional rendering.
+
+<Activity>
+
+Next to your `SimpleProps` component, create a new file called `AreThingsGood.js`.
+
+Inside it, export component called `AreThingsGood` that renders a `<div>` with the text "Things are good" inside it.
+
+Then, in your `App.js` file, import your new component and render it below your `SimpleProps` component.
+
+<LookAtBrowser>
+  When you're done, your app should look like this:
+
+  <img className="mw-400" src={booleanProps1} />
+</LookAtBrowser>
+
+</Activity>
+
+Now we're going to add a boolean to our `AreThingsGood` component.
+
+With the `string` and `number` properties we made before, we had to use a key and a value, like:
+
+```jsx
+<SimpleProps count={10} />
+<SimpleProps title="A Title" />
+```
+
+We can do the same with boolean props, like:
+
+```jsx
+<AreThingsGood isGood={true} />
+<AreThingsGood isGood={false} />
+```
+
+But, we can also just use the name of the property, like `<AreThingsGood isGood>`
+
+```jsx
+<AreThingsGood isGood /> === <AreThingsGood isGood={true} />
+<AreThingsGood /> === <AreThingsGood isGood={false} />
+```
+
+<Activity>
+
+Update your `AreThingsGood` component so that it has a boolean property called `isGood`.
+
+Then, update your `App.js` file to render two `AreThingsGood` components, one with the `isGood` property and one without.
+
+<Hint title="How to add the boolean props.">
+
+```jsx AreThingsGood.jsx focus=1[29:41]
+export const AreThingsGood = ({ isGood }) => {
+  return <div>Things are good</div>;
+};
+```
+
+```jsx App.js
+import { AreThingsGood } from "./AreThingsGood";
+
+export const App = () => {
+  return (
+    <div>
+      <SimpleProps count={10} />
+      <SimpleProps title="A Title" />
+      // focus(1:2)
+      <AreThingsGood isGood />
+      <AreThingsGood />
+    </div>
+  );
+};
+```
+
+</Hint>
+
+</Activity>
+
+## Conditional rendering
+
+### Ternary
+
+Great, now we have a boolean property in our component. But, we're not using it yet.
+
+Let's update our `AreThingsGood` component so that it renders a different message depending on the value of the `isGood` property.
+
+In JavaScript, we would use an `if` statement to conditionally run code.
+
+```js
+if (isGood) {
+  console.log("Things are good");
+}
+```
+
+In JSX, we can't use `if` statements inside JSX content.
+
+For example, this wouldn't work, because an if statement doesn't have a value.
+
+```jsx
+const AreThingsGood = ({ isGood }) => {
+  return <div>This are ${if (isGood) {} "good" } else {  "bad" }}</div>;
+};
+```
+
+Instead, we use a ternary operator.
+
+```jsx
+const AreThingsGood = ({ isGood }) => {
+  return <div>This are ${isGood ? "good" : "bad"}</div>;
+};
+```
+
+Conditional rendering is a common pattern in React. We use it to render different content depending on the state of our application.
+
+### Logical &&
+
+Sometimes, we want to render content depending on the value of a boolean property, but we don't want to render anything if the property is `false`.
+
+We can do this using the logical `&&` operator.
+
+```jsx
+const AreThingsGood = ({ isGood }) => {
+  return <div>{isGood && <div>Things are good</div>}</div>;
+};
+```

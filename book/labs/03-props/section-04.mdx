@@ -1,0 +1,81 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import newFile from "./images/new-file.png";
+import booleanProps1 from "./images/boolean-props-1.png";
+
+export const title = "style property";
+export const sectionPrefix = "/style-prop";
+export const description = "you will use the style prop to apply css styles.";
+
+<Objectives>
+<div>
+  In this section, you will
+
+- apply css styles directly to components
+
+</div>
+
+</Objectives>
+
+In HTML and CSS, styles can be applied to an element in a variety of ways.
+
+- Inline styles
+- Styles in a `<style>` tag
+- Styles in a separate CSS file
+
+In React, styles can be applied in the same ways. In this lab, we'll focus on inline styles.
+
+In HTML, inline styles are applied using the `style` attribute using a string of CSS properties.
+
+```html
+<div style="color: red; font-size: 24px;">Hello World... in red</div>
+```
+
+In React, inline styles are applied using the `style` attribute using a JavaScript object of CSS properties.
+
+<LiveCode
+  disabled
+  code={`<div
+  style={{
+    color: "red",
+    fontSize: "24px",
+  }}
+>
+  Hello World... in red
+</div>`}
+/>
+
+<Activity>
+Create a component that renders a `<div>` with the text "Hello World" in red.
+
+Add it to the `App` component.
+
+</Activity>
+
+<Goal>Congratulations! You've styled a component with inline-props.</Goal>
+
+Note that `props.style` is an object, not a string. This is because the `style`
+attribute in HTML is a string of CSS properties, but in React, it's a JavaScript object of CSS properties.
+
+There's another difference between HTML and React. In HTML, elements can be given an attribute
+called `class` to apply a CSS class to an element. In React, the attribute is called `className`.
+
+In HTML:
+
+```html
+<div className="cool-div"></div>
+```
+
+In JSX:
+
+```jsx
+<div className="cool-div">
+```
+
+We'll take a look more styling options, including classnames a later section.
