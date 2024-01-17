@@ -63,18 +63,18 @@ export const LiveCode = (props) => {
             </button>
             <BrowserWindow>
               <LivePreview className="live-preview" />
+              <LiveError
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  padding: "1rem",
+                  background: "#ffcdcd",
+                  borderRadius: "5px",
+                }}
+              />
             </BrowserWindow>
           </div>
         </div>
-        <LiveError
-          style={{
-            color: "red",
-            fontWeight: "bold",
-            padding: "1rem",
-            background: "#ffcdcd",
-            borderRadius: "5px",
-          }}
-        />
       </div>
     </LiveProvider>
   );
