@@ -1,0 +1,113 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import { ReadDocs } from "ReadDocs";
+import { jsx } from "jsx";
+import inspectMenu from "./images/inspect-menu.png";
+import consoleOpen from "./images/console.png";
+import logged from "./images/logged.png";
+
+export const title = "event handlers";
+export const excerpt = "you'll attach event handlers to elements in the DOM";
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- add event listeners to react elements
+
+</div>
+
+</Objectives>
+
+<ReadDocs
+  title="Read the React documentation for Responding to Events"
+  url="https://react.dev/learn/responding-to-events"
+>
+  Once you've read through that, come back and apply some event listeners here.
+</ReadDocs>
+
+To the right of these instructions is a live preview of the code in the folder: `labs/04-event-handlers/your-solution`
+
+<Activity>
+
+1. Add a `click` handler to the element with the text "Click me."
+  _In that handler,  include `console.log("I was clicked")` to send a message to the console._
+
+
+2. Add a `doubleclick` handler to the element with the text "Double click me."
+  _In that handler, include `console.log("I was doubleclicked")` to send a message to the console._
+
+3. Add a `mousemove` handler to the element with the text "Move your mouse over me."
+  _In that handler,  include `console.log("I was moused over")` to send a message to the console._
+
+4. Add a `change` handler to the color picker input.
+  _In that handler, log the chosen color to the console._
+
+5. Add a `keydown` handler to the input near the text "Log keypresses here."
+  _In that handler, log the `event.key` to the console._
+
+<Hint title="How to read the chosen color out of the event?">
+
+Change events on input elements have a `target` property that refers to the element that triggered the event. The `value` property of that element is the chosen color.
+
+```jsx
+<input
+  type="color"
+  onChange={(event) => {
+    console.log(event.target.value);
+  }}
+/>
+```
+
+</Hint>
+
+<Hint title="How to read the pressed key out of the event?"></Hint>
+
+Keyboard events have a `key` property that refers to the key that was pressed.
+
+```jsx
+<input
+  type="color"
+  onChange={(event) => {
+    // mark[17:34]
+    console.log(event.key);
+  }}
+/>
+```
+
+</Activity>
+
+<LookAtBrowser>
+
+Look at the log output under the preview to see the results of your event handlers.
+When you see all the messages you expect, you're done with this activity.
+
+</LookAtBrowser>
+
+<Goal>
+
+Great news! You've handled some events in React!
+
+</Goal>
+
+### `event.preventDefault`
+
+A word on `event.preventDefault`: The browser defines some built-in behavior for certain events.
+
+For example:
+
+- When you click on a link, the browser navigates to the URL in the `href` attribute of the link.
+- When you submit a form, the browser sends the form data to the URL in the `action` attribute of the form.
+
+These two behaviors are particularly important for web applications. The default behavior of these navigation
+events is to reload the page, completely resetting the state of the application.
+
+Often, when building javascript applications, we want to override this default behavior.
+For example, we might want to build a network request with custom headers or other settings.
+In these circumstances, we can call `event.preventDefault` to prevent the browser from doing its default behavior.
