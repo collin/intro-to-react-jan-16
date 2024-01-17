@@ -10,8 +10,7 @@
 
     /* Bundler mode */
     "baseUrl": "./book",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
