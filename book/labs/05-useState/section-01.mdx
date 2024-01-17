@@ -1,0 +1,115 @@
+import { CopyPaste } from "CopyPaste";
+import { Objectives } from "Objectives";
+import { Questions } from "Questions";
+import { Goal } from "Goal";
+import { Activity } from "Activity";
+import { LookAtBrowser } from "LookAtBrowser";
+import { Hint } from "Hint";
+import { LiveCode } from "LiveCode";
+import { ReadDocs } from "ReadDocs";
+import { jsx } from "jsx";
+
+export const title = "simple counter";
+export const sectionPrefix = "/counter";
+export const description = "you'll create a simple counter with state."
+
+<Objectives>
+<div>
+  In this section, you will
+  
+- Create a simple counter app
+
+</div>
+
+</Objectives>
+
+
+To the right of these instructions is a live preview of the code
+in the folder: `labs/05-useState/your-solution/counter`.
+
+During this lab, you will be making edits to the code in that folder.
+
+The starting point for this lab has some buttons to add and subtract from the count.
+
+Give them a try, and you'll see that they don't work yet.
+
+React components are functions that return JSX. The JSX is what gets rendered to the screen.
+
+But they wouldn't be very useful if they didn't change over time.
+
+So React components can also have state.
+
+One of the simplest ways to track state is with the `useState` hook. Using it looks like this:
+
+```jsx
+const Name = () => {
+  const [name, setName] = useState("Bob");
+  return <div>My name is {name}</div>;
+};
+```
+
+It's important to note that `useState` is a "React hook". React hooks can ONLY be used inside of function components.
+
+By convention, hooks are always prefixed as `use____` so they're easy to spot. To focus on the `useState` hook, we'll remove the rest of the component.
+
+```jsx
+const [name, setName] = useState("Alex");
+```
+
+The `useState` hook takes one argument, which is the initial value of the state. In this case, we're setting the initial value of `name` to `"Alex"`.
+
+The `useState` hook returns an array with two values. The first value is the current value of the state, and the second value is a function to update the state.
+
+It's very common to use array destructuring to assign these values to named variables.
+
+```jsx
+// It helps to think about it like this
+const [currentValue, setter] = useState("initial value");
+// but always use a more specific name.
+```
+
+The setter function is used to update the state. It takes one argument, which is the next value of the state.
+
+Any time the state changes, the component will re-render. So the next time the component re-renders.
+
+
+Try-out this inline example of a component that uses `useState` to track a name for a name tag.
+<LiveCode
+  noWrap
+  noInline={false}
+  code={`function NameTag () {
+  const [name, setName] = useState("Alex");
+  return <>
+    <div>My name is {name}</div>
+    <button
+      onClick={() => {
+        setName("Cameron");
+      }}
+    >
+      Actually, it's  Cameron
+    </button>
+  </>;
+}`}
+/>
+
+<Activity>
+Now it's your turn.
+
+- Update the `Counter` component to use `useState` to track the count and use that value to render the count.
+- Add event listeners to the Add and Subtract buttons to update the count.
+
+</Activity>
+
+Okay, so now we have a working counter. Let's add another feature. It'd be great to be able to reset the count back to zero.
+
+<Activity>
+
+- Add a button to reset the count back to zero.
+
+</Activity>
+
+<Goal>
+
+Fantastic! You've created a counter app using `useState`!
+
+</Goal>
