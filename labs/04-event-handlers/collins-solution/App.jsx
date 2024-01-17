@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const boxStyles = {
   border: "1px solid black",
   padding: "1rem",
@@ -5,8 +7,13 @@ const boxStyles = {
 };
 
 export const App = () => {
+  const [color, setColor] = useState("pink");
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: color,
+      }}
+    >
       <div
         style={boxStyles}
         onClick={() => {
@@ -36,6 +43,7 @@ export const App = () => {
         <input
           type="color"
           onChange={(event) => {
+            setColor(event.target.value);
             console.log(event.target.value);
           }}
         />
