@@ -124,7 +124,7 @@ export const Book = () => {
           return (
             <li key={path} className="lab">
               <NavLink to={`/lab/${labName}`}>
-                <span className="index">{index}. </span>
+                <span className="index">{index + 1}. </span>
                 <span className="title">
                   {module.title ?? "(title missing)"}
                 </span>
