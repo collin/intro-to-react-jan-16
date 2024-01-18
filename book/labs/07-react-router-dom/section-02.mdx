@@ -1,0 +1,147 @@
+export const title = "Route params";
+export const description = "Use routes with url params to fetch dynamic content";
+export const sectionPrefix = "/02-url-params";
+
+To the right side of this page is a live preview of what you'll be working on
+in this lab. The code for this lab is in the file `labs/07-react-router-dom/your-solution/02-url-params`;
+
+In the previous section, we used routes to navigate between pages with static content.
+
+In this section, we'll use routes with url params to fetch dynamic content.
+
+Having an index or directory page linking to individual item pages is a common pattern in web applications.
+
+For example a blog might have a url: `/all-posts`, which lists all the posts, and a url: `/post/1` which shows the post with the id 1 (or whichever number was in the url).
+
+React Router allows for specifying url params in the route path, and accessing them in the component via the `useParams` hook.
+
+The way to specify a dynamic route is to use a colon `:` followed by the name of the param.
+
+For examlpe:
+
+```jsx
+<Route path="/all-posts">
+<Rotue path="/post/:postId">
+```
+
+Could be use to match the following urls:
+
+```txt
+/all-posts
+/post/1 <- with postId = 1
+/post/2 <- with postId = 2
+/post/3 <- with postId = 3
+```
+
+In this section, we're going to use the JSON placeholder API as our source of data.
+
+The two routes we'll be using from that API are:
+
+- https://jsonplaceholder.typicode.com/users
+- https://jsonplaceholder.typicode.com/users/:id
+
+In this section, we'll create a User Directory page, which lists all the users,
+and a User Profile page, which shows the profile of a single user.
+
+In order to facilitate fetching data, a generic `useFetch` function is supplied.
+It is similar to the one proposed in the previous `useEffect` lab. You can find it in
+the file `labs/07-react-router-dom/your-solution/02-url-params/useFetch.jsx`
+
+First, let's define shell components for our two routes. Add this code to `App.jsx`.
+
+```jsx
+const AllUsers = () => {
+  return (
+    <div>
+      All users list
+    </div>
+  )
+}
+
+const SingleUser = () => {
+  return (
+    <div>
+      Show single user
+    </div>
+  )
+}
+```
+
+And add a Routes component to the return statement of the App component:
+
+( Don't forget to import the `Routes` and `Route` component from `react-router-dom` )
+
+```jsx
+return (
+  <div>
+    <h1>User Directory</h1>
+    <Routes>
+      <Route path="/" element={<AllUsers />} />
+      <Route path="/users/:userId" element={<SingleUser />} />
+    </Routes>
+  </div>
+);
+```
+
+Next, update the `AllUsers` component to fetch the users from the API and display them.
+
+(Don't forget to import the `Link` component from `react-router-dom`)
+
+```jsx
+const AllUsers = () => {
+  const users = useFetch("https://jsonplaceholder.typicode.com/users");
+
+  return (
+    <div>
+      {users.isLoading && <p>Loading...</p>}
+      {users.error && <p>{users.error.message}</p>}
+      <ul>
+        {users.data?.map((user) => (
+          <li key={user.id}>
+            <Link to={`/users/${user.id}`}>{user.username}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+```
+
+Now, you should see a list of users, and clicking on a user should take you to a page that says "Show single user".
+
+Next, we can update the `SingleUser` component to fetch the user data from the API and display it.
+
+You'll need to import the function `useParams` from `react-router-dom` to access the url params.
+
+The SingleUser component should look like this:
+
+```jsx
+const SingleUser = () => {
+  const params = useParams();
+  const userId = params.userId;
+  // notice that `userId` matches the parameter name specified in the route path
+  // in this case, the route path is `/users/:userId`
+
+  const user = useFetch(
+    `https://jsonplaceholder.typicode.com/users/${userId}`,
+  );
+
+  return (
+    <div>
+      <Link to="/">Back to all users</Link>
+      {user.isLoading && <p>Loading...</p>}
+      {user.error && <p>{user.error.message}</p>}
+      {user.data && (
+        <div>
+          <div>Username: {user.data.username}</div>
+          <div>Name: {user.data.name}</div>
+          <div>Email: {user.data.email}</div>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+With that in place you should be able to navigate back and forth between
+the listing page and the pages for individual users.
