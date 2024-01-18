@@ -1,0 +1,11 @@
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #eee;
+  padding: 1rem;
+}
+
+a {
+  padding: 0.5rem;
+}

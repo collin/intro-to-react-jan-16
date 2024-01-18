@@ -1,0 +1,178 @@
+import {Activity} from "Activity";
+import {Hint} from "Hint";
+
+export const title = "Simple Routing";
+export const description = "Use simple routes to display different components";
+export const sectionPrefix = "/01-simple-routes";
+
+A common pattern in React is the "Single Page App". This is where the entire application is
+rendered in a single HTML page, and the page is updated by changing the DOM.
+
+This is in contrast to the traditional web application, where each page is a separate
+HTML document, and the browser navigates between them by loading a new page.
+
+The library, 'react-router-dom' is used to implement routing in React. This library
+provides a number of components that can be used to define routes, and to navigate
+between them.
+
+To the right side of this page is a live preview of what you'll be working on
+in this lab. The code for this lab is in the file `labs/07-react-router-dom/your-solution/01-simple-routes`;
+
+The first thing to do is import the routing and link Components from `react-router-dom`. Add this to the top of the `App.jsx` file:
+
+```js
+import { Routes, Route, Link } from "react-router-dom";
+```
+
+- The `Routes` component is used to wrap all the defined the routes in your application.
+- The `Route` component is used to define individual routes.
+- The `Link` component is used to create links between routes.
+
+In this lab, you'll be building a very bare-bones site with three pages:
+
+- `/` - The home page
+- `/about` - A page with "About" text
+- `/contact` - A page with "Contact" text
+
+As a first step, we'll need components for each of these pages.
+
+In a larger application, it would be typical to put these in their own files, but for simplicity, we'll put them
+all in the `App.jsx` file.
+
+Add the following components to the `App.jsx` file:
+
+```js
+const Home = () => {
+  return <h2>Home</h2>;
+};
+const About = () => {
+  return <h2>About</h2>;
+};
+const Contact = () => {
+  return <h2>Contact</h2>;
+};
+```
+
+( Because our focus is on routing, we won't worry about putting much content in these components. )
+
+Next, we'll define the routes for these components.
+
+The `Routes` component is used to wrap all the defined the routes in your application.
+
+Change the `return` statement in the `App` component to look like this:
+
+```js
+return (
+  <div>
+    <h1>Simple Site with Routes</h1>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+    </Routes>
+  </div>
+);
+```
+
+Now, you should see the "Home" component displayed on the page. That's because by default, the page was loaded
+with the URL `/`, and the first route that matches is the one that renders.
+
+But what if you want to navigate to the other pages?
+
+The `Link` component is used to create links between routes.
+
+We'll need to create a navigation bar with links to the other pages.
+
+Update the `return` statement in the `App` component to look like this:
+
+```js
+return (
+  <div>
+    <h1>Simple Site with Routes</h1>
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/contact">Contact</Link>
+    </nav>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+    </Routes>
+  </div>
+);
+```
+
+Now, you should see a navigation bar with links to the other pages. When you click on those links,
+the appropriate component should be displayed.
+
+This is good, but can be even better. There isn't any visual indication in the navbar of which page
+is currently being displayed.
+
+React Router provides a `NavLink` component that can be used to create links that have an html classname
+applied when the link is active.
+
+Update the import statement at the top of the `App.jsx` file to look like this:
+
+```js
+import { Routes, Route, Link, NavLink } from "react-router-dom";
+```
+
+Then, update the `nav` element in the `App` component to replace all the `<Link>` components with `<NavLink>` components.
+
+It'll look like this when you're done:
+
+```js
+<nav>
+  <NavLink to="/">Home</NavLink>
+  <NavLink to="/about">About</NavLink>
+  <NavLink to="/contact">Contact</NavLink>
+</nav>
+```
+
+That updates the links in the navbar, but we also need to include some CSS to style the active link.
+
+There is a file called `styles.css` in the `labs/07-react-router-dom/your-solution/01-simple-routes` directory.
+
+We'll need to include it in our application and add some extra styles for nav links to it.
+
+Add the following import statement to the top of the `App.jsx` file:
+
+```js
+import "./styles.css";
+```
+
+Then, add the following CSS to the `styles.css` file:
+
+```css
+a.active {
+  color: white;
+  background: black;
+}
+```
+
+That will target all links with the `active` class and set the text color to white and the background color to black.
+
+With that change in place, you should see the active link in the navbar highlighted as you click them.
+
+One last thing, we'll add a "Not Found" page that will be displayed when the user somehow navigates to a page that doesn't exist.
+
+Add the following component to the `App.jsx` file:
+
+```js
+const NotFound = () => {
+  return <h2>Not Found</h2>;
+};
+```
+
+Then, add a `<Route>` component to the `Routes` component that will match any path that hasn't already been matched.
+
+It'll look like this when you're done:
+
+```js
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/contact" element={<Contact />} />
+  <Route path="*" element={<NotFound />} />
+</Routes>
