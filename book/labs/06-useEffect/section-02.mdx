@@ -1,0 +1,150 @@
+export const title = "Use DOM nodes";
+export const description = "Use a reference to a DOM node to use its API directly";
+export const sectionPrefix = "/canvas-draw";
+
+Typically, React components are written in a declarative style, where you describe
+what you want to happen, and React takes care of the DOM updates. However,
+sometimes you need to access the underlying DOM node, and this is done by using a
+reference.
+
+In this example, we will use the html `<canvas>` element to gain access to a 2d
+graphics drawing api. Drawing to this api can not be done declaratively with HTML,
+so we can't use JSX to do it. Instead, we will use a reference to the canvas.
+
+The the right of this page, you'll see a live preview of what you're building.
+
+The starting point can be found in in the directory: `labs/06-useEffect/your-solution/canvas-draw`.
+You'll be making changes in the `App.jsx` file.
+
+First, let's update the `App` component to render a `<canvas>` element.
+
+Do that by changing the `return` statement to the following:
+
+```jsx
+return (
+  <div>
+    <h1>Drawing Canvas</h1>
+    <canvas
+      width={400} height={400}
+      style={{ border: '1px solid black' }}
+    />
+  </div>
+)
+```
+
+Now, to make a reference, we'll need the `useRef` hook. Add the following line to the top of 
+the `App` component:
+
+( Dont forget to  `import { useRef } from 'react'`)
+
+```jsx
+export const App = () => {
+  const canvasRef = useRef(null);
+```
+
+We'll need to connect this reference to the `<canvas>` element. Update the `<canvas>` element
+to use the reference, like this:
+
+```jsx
+<canvas
+  ref={canvasRef}
+  width={400} height={400}
+  style={{ border: '1px solid black' }}
+/>
+```
+
+Now, we can use our ref along with `useEffect` to draw to the canvas.
+
+First, update your imports from 'react' to include `useEffect`:
+
+```jsx
+import React, { useRef, useEffect } from 'react';
+```
+
+Then, add the following `useEffect` hook to the `App` component:
+
+```jsx
+useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
+
+  // Clear the canvas
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const radius = 100;
+  const color = "red";
+
+  // Draw a circle with the given radius and color
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(200, 200, radius, 0, 2 * Math.PI);
+  ctx.fill();
+}, []);
+```
+
+With that effect, your component should now draw a red circle to
+the canvas upon it's first render.
+
+## Dynamic drawing
+
+Now, let's make the drawing dynamic. We'll do this by adding a `color` and `radius` state to our component.
+
+Add `useState` to your imports from react, and add the following lines to the top of the `App` component:
+
+```jsx
+const [color, setColor] = useState("red");
+const [radius, setRadius] = useState(100);
+```
+
+Now, we can use these values in our `useEffect` hook. Update the `useEffect` hook to use the `color` and `radius` state:
+
+```jsx
+useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
+
+  // Clear the canvas
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw a circle with the given radius and color
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(200, 200, radius, 0, 2 * Math.PI);
+  ctx.fill();
+}, [color, radius]);
+```
+
+Note that the `color` and `radius` have been added to the dependency array of the `useEffect` hook.
+This means that the effect will be run whenever the `color` or `radius` changes.
+
+Now, we can add some controls to change the color and radius.
+
+Update the JSX of the App component to include `<input>` elements for color and radius:
+
+```jsx
+return (
+  <div>
+    <h1>Drawing Canvas</h1>
+    <canvas ref={canvasRef} width="400" height="400" />
+    <input
+      type="range"
+      min="10"
+      max="150"
+      value={radius}
+      onChange={(event) => setRadius(event.target.valueAsNumber)}
+    />
+    <input
+      type="color"
+      value={color}
+      onChange={(event) => setColor(event.target.value)}
+    />
+  </div>
+);
+```
+
+Now, you should be able to change the color and radius of the circle by using the controls.
+
+Most of the time you'll be able to use React's declarative style to build your UI, but
+it's useful to have access to the underlying DOM node as an "escape hatch" when you need it.
