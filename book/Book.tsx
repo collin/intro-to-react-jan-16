@@ -55,7 +55,7 @@ const Lab = () => {
       </div>
 
       {Lab.hidePreview === true || Lab.noCommonPreview === true ? null : (
-        <Preview />
+        <Preview key={`${params.lab}/${params.section}`} />
       )}
     </>
   );
@@ -98,7 +98,9 @@ const Section = () => {
           </>
         )}
       </div>
-      {Lab.hidePreview === true ? null : <Preview />}
+      {Lab.hidePreview === true ? null : (
+        <Preview key={`${params.lab}/${params.section}`} />
+      )}
     </>
   );
 };
